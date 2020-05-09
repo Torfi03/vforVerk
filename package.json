@@ -1,0 +1,15 @@
+{
+  "name": "last-colony-server",
+  "version": "0.9.0",
+  "description": "Multiplayer server for Last Colony",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "author": "Torfi",
+  "license": "ISC",
+  "dependencies": {
+    "websocket": "^1.0.31"
+  }
+}

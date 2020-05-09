@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>WebSocket Client</title>
+        <meta charset="UTF-8">
+        <script type="text/javascript">
+            var websocket;
+            var serverUrl = "ws://localhost:8080";
+
+            function displayMessage(message) {
+                document.getElementById("display").value += message + "\n";
+            }
+
+            function initWebSocket() {
+                if (!window.WebSocket) {
+                    displayMessage("Your browser does not support WebSockets");
+                    return;
+                }
+
+                websocket = new WebSocket(serverUrl);
+
+                websocket.addEventListener("open", function() {
+                    displayMessage("WebSocket connection opened");
+                    document.getElementById("sendmessage").disabled = false;
+                });
+                
+                websocket.addEventListener("error", function() {
+                    displayMessage("WebSocket connection error");
+                    document.getElementById("sendmessage").disabled = true;
+                });
+
+                websocket.addEventListener("message", function(message) {
+                    displayMessage("Received Message: \"" + message.data + "\"");
+                });
+            }
+
+            function sendMessage() {
+
+                if (websocket.readyState === WebSocket.OPEN) {
+                    var message = document.getElementById("message").value;
+
+                    displayMessage("Sending Message: \"" + message + "\"");
+                    websocket.send(message);
+                } else {
+                    displayMessage("Cannot send message. The WebSocket connection is not open.");
+                    document.getElementById("sendmessage").disabled = true;
+                }
+            }
+
+        </script>
+    </head>
+    <body onload="initWebSocket()">
+        <p>
+            <input type="text" placeholder="Enter Message Here" size="40" id="message">
+            <input type="button" value="Send" id="sendmessage" onclick="sendMessage()"
+            disabled="true">
+        </p>
+        <p>
+            <textarea id="display" cols="80" rows="10"></textarea>
+        </p>
+    </body>
+</html>
